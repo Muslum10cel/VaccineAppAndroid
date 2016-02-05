@@ -12,17 +12,17 @@ import java.io.IOException;
  * Created by muslumoncel on 01/02/16.
  */
 public class WebServiceOperations {
-    private final DBOperations dbOperations=new DBOperations();
+    private final DBOperations dbOperations = new DBOperations();
 
-    public int register(String username,String fullName,String password,String e_mail) throws IOException, XmlPullParserException {
-        return dbOperations.register(username,fullName,password,e_mail);
+    public int register(String username, String fullName, String password, String e_mail) throws IOException, XmlPullParserException {
+        return dbOperations.register(username, fullName, password, e_mail);
     }
 
-    public int log_in(String username,String password) throws IOException, XmlPullParserException {
+    public int log_in(String username, String password) throws IOException, XmlPullParserException {
         return dbOperations.log_in(username, password);
     }
 
-    public int addBaby(String username,String baby_name,String  date_of_birth) throws IOException, XmlPullParserException {
+    public int addBaby(String username, String baby_name, String date_of_birth) throws IOException, XmlPullParserException {
         return dbOperations.addBaby(username, baby_name, date_of_birth);
     }
 
@@ -75,14 +75,14 @@ public class WebServiceOperations {
     }
 
     public int validateVerificationCode(String e_mail, String code) throws IOException, XmlPullParserException {
-        return dbOperations.validateVerificationCode(e_mail,code);
+        return dbOperations.validateVerificationCode(e_mail, code);
     }
 
     public JSONObject getBabyVaccineDetails(int baby_id) throws JSONException, XmlPullParserException, IOException {
         return dbOperations.getBabyVaccineDetails(baby_id);
     }
 
-    public JSONObject getComments(String vaccine_name,int begin,int end) throws IOException, XmlPullParserException, JSONException {
+    public JSONObject getComments(String vaccine_name, int begin, int end) throws IOException, XmlPullParserException, JSONException {
         return dbOperations.getComments(vaccine_name, begin, end);
     }
 
