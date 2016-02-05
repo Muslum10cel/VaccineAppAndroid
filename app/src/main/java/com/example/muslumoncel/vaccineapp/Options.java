@@ -19,4 +19,9 @@ public class Options {
     public void setOption(String option) {
         this.option = option;
     }
+
+    @Override
+    public String toString() {
+        return this.option;
+    }
 }

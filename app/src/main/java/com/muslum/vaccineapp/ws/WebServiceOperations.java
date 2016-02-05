@@ -14,8 +14,8 @@ import java.io.IOException;
 public class WebServiceOperations {
     private final DBOperations dbOperations=new DBOperations();
 
-    public int register(String username,String fullName,String password,String e_mail) throws IOException, XmlPullParserException {
-        return dbOperations.register(username,fullName,password,e_mail);
+    public int register(String username,String fullName,String password,String passwordConfirm,String e_mail) throws IOException, XmlPullParserException {
+        return dbOperations.register(username,fullName,password,passwordConfirm,e_mail);
     }
 
     public int log_in(String username,String password) throws IOException, XmlPullParserException {
