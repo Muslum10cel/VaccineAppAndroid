@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.muslum.vaccineapp.ws.WebServiceOperations;
+import com.muslumoncel.usermain.UserMain;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -125,6 +126,9 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
             super.onPostExecute(integer);
             progDailog.dismiss();
             if (Objects.equals(Log_in_status, LogLevel.USER)) {
+                Intent intent=new Intent(Vaccine_App_LogIn.this, UserMain.class);
+                finish();
+                startActivity(intent);
             }
         }
     }

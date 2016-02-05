@@ -14,4 +14,10 @@
     <string name="regSuccess">Registration is successful. You may log-in.</string>
     <string name="regNotSuccess">Registration is not successful. Username is already available. Please enter another username.</string>
     <string name="exception">Exception!</string>
+    <string name="title_activity_user_main">UserMain</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

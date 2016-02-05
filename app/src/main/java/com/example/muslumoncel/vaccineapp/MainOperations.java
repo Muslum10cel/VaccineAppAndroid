@@ -5,10 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -202,10 +200,5 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
             if (!Objects.equals(progDailog,null))
                 progDailog.dismiss();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }
