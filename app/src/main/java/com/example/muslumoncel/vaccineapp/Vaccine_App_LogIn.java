@@ -1,6 +1,7 @@
 package com.example.muslumoncel.vaccineapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.muslum.vaccineapp.ws.WebServiceOperations;
 
@@ -81,16 +83,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
             case R.id.lgnButton:
                 if ((user == null || user.length() == 0) || (pass == null || pass.length() == 0))
                     return;
-                try {
-                    Log_in_status = new LogIn(user, pass).execute().get();
-                    if (Objects.equals(Log_in_status, LogLevel.USER)) {
-
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                new LogIn(user, pass).execute();
                 break;
         }
     }
@@ -118,7 +111,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
         @Override
         protected Integer doInBackground(Void... params) {
             try {
-                return webServiceOperations.log_in(user, pass);
+                Log_in_status = webServiceOperations.log_in(user, pass);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XmlPullParserException e) {
@@ -131,6 +124,8 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             progDailog.dismiss();
+            if (Objects.equals(Log_in_status, LogLevel.USER)) {
+            }
         }
     }
 }
