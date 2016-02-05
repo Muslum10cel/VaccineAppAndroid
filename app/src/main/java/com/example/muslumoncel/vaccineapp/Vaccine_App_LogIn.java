@@ -127,6 +127,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
             progDailog.dismiss();
             if (Objects.equals(Log_in_status, LogLevel.USER)) {
                 Intent intent=new Intent(Vaccine_App_LogIn.this, UserMain.class);
+                intent.putExtra("Username",user);
                 finish();
                 startActivity(intent);
             }
