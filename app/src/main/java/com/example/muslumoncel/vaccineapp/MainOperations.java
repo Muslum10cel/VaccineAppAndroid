@@ -190,11 +190,6 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             progDailog.dismiss();
-            if (registerStatus == -2) {
-                Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.passnotmatch), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
         }
     }
 }
