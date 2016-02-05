@@ -11,4 +11,7 @@
     <string name="exit">Are you sure you want to exit?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="regSuccess">Registration is successful. You may log-in.</string>
+    <string name="regNotSuccess">Registration is not successful. Username is already available. Please enter another username.</string>
+    <string name="exception">Exception!</string>
 </resources>

@@ -106,16 +106,26 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
                             return;
                         } else {
                             for (int i = 0; i < pas.length; i++) {
-                                Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.passnotmatch), Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
                                 if (!Objects.equals(pas[i], confPass[i])) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.passnotmatch), Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
                                     return;
                                 }
                             }
                         }
                         try {
                             registerStatus = new Register(user, pass, fullname, email).execute().get();
+                            Toast toast = null;
+                            if (Objects.equals(registerStatus, 2)) {
+                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regSuccess), Toast.LENGTH_LONG);
+                            } else if (Objects.equals(registerStatus, -1)) {
+                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.exception), Toast.LENGTH_LONG);
+                            } else if (Objects.equals(registerStatus, 1)) {
+                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regNotSuccess), Toast.LENGTH_LONG);
+                            }
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (ExecutionException e) {
@@ -166,7 +176,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
 
         @Override
         protected void onPreExecute() {
-            //super.onPreExecute();
+            super.onPreExecute();
             progDailog.setMessage("Please Wait...");
             progDailog.setIndeterminate(false);
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -189,7 +199,13 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
-            progDailog.dismiss();
+            if (!Objects.equals(progDailog,null))
+                progDailog.dismiss();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
