@@ -83,7 +83,9 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
                     return;
                 try {
                     Log_in_status = new LogIn(user, pass).execute().get();
-                    Log.i("Log level : ", String.valueOf(Log_in_status));
+                    if (Objects.equals(Log_in_status, LogLevel.USER)) {
+
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

@@ -8,4 +8,7 @@
     <string name="cancel">Cancel</string>
     <string name="confirmPass">Confirm Password</string>
     <string name="passnotmatch">Passwords are not matching!</string>
+    <string name="exit">Are you sure you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
