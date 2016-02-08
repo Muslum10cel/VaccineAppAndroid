@@ -36,11 +36,19 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
     private ListView ops;
     private List<Options> op = new ArrayList<>();
     private String user, pass, passconf, fullname, email;
+    private View tempView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        tempView = inflater.inflate(R.layout.register, null);
+        userName = (EditText) tempView.findViewById(R.id.userRegEditText);
+        passWord = (EditText) tempView.findViewById(R.id.passRegEditText);
+        confirmPassword = (EditText) tempView.findViewById(R.id.confPassRegEdit);
+        fullName = (EditText) tempView.findViewById(R.id.fullNameRegEdit);
+        e_mail = (EditText) tempView.findViewById(R.id.emailRegEdit);
         ops = (ListView) findViewById(R.id.optionList);
         PrivateAdapter adapter = new PrivateAdapter(this, op);
         op.add(new Options("Log In"));
@@ -74,13 +82,6 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         alert.setTitle(message);
         switch (item) {
             case 1:
-                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                View tempView = inflater.inflate(R.layout.register, null);
-                userName = (EditText) tempView.findViewById(R.id.userRegEditText);
-                passWord = (EditText) tempView.findViewById(R.id.passRegEditText);
-                confirmPassword = (EditText) tempView.findViewById(R.id.confPassRegEdit);
-                fullName = (EditText) tempView.findViewById(R.id.fullNameRegEdit);
-                e_mail = (EditText) tempView.findViewById(R.id.emailRegEdit);
                 alert.setView(tempView);
                 alert.setCancelable(false);
                 alert.setPositiveButton(getResources().getString(R.string.register), new DialogInterface.OnClickListener() {
@@ -197,7 +198,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
-            if (!Objects.equals(progDailog,null))
+            if (!Objects.equals(progDailog, null))
                 progDailog.dismiss();
         }
     }
