@@ -29,10 +29,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
         intent = getIntent();
-        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.nav_header_user_main, null);
-        userText = (TextView) v.findViewById(R.id.userText);
-        userText.setText(intent.getStringExtra("Username"));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -54,6 +50,9 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userText= (TextView) navigationView.getHeaderView(0).findViewById(R.id.userInfoText);
+        userText.setText(intent.getStringExtra("Username"));
     }
 
     @Override

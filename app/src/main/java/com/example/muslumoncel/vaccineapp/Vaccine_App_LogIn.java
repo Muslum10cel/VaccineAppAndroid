@@ -78,6 +78,14 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent intent = new Intent(Vaccine_App_LogIn.this, MainOperations.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
@@ -126,8 +134,8 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
             super.onPostExecute(integer);
             progDailog.dismiss();
             if (Objects.equals(Log_in_status, LogLevel.USER)) {
-                Intent intent=new Intent(Vaccine_App_LogIn.this, UserMain.class);
-                intent.putExtra("Username",user);
+                Intent intent = new Intent(Vaccine_App_LogIn.this, UserMain.class);
+                intent.putExtra("Username", user);
                 finish();
                 startActivity(intent);
             }

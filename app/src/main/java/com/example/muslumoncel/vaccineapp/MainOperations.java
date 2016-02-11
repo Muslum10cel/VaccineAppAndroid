@@ -76,7 +76,6 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
     }
 
     private void Alert(int item, String message) {
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setCancelable(false);
         alert.setTitle(message);
