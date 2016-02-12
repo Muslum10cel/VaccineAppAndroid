@@ -25,7 +25,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
     private LayoutInflater inflater;
     private TextView userText, infoText;
     private GetAndParseDatas getAndParseDatas;
-    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         userText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userInfoText);
         infoText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyCountInfoText);
         userText.setText(intent.getStringExtra("Username"));
-        getAndParseDatas = new GetAndParseDatas(intent.getStringExtra("Username"), infoText);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.com.muslumoncel.jsonparseoperations;
 
+import com.muslumoncel.usermain.Details;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,4 +10,5 @@ import java.util.List;
  */
 public class Lists {
     public static final List<Baby> babies=new ArrayList<>();
+    public static final List<Details> details=new ArrayList<>();
 }

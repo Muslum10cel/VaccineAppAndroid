@@ -12,4 +12,10 @@
     tools:context="com.muslumoncel.usermain.UserMain"
     tools:showIn="@layout/app_bar_user_main">
 
+    <ListView
+        android:id="@+id/listViewBabies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
