@@ -16,13 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.com.muslumoncel.jsonparseoperations.GetAndParseDatas;
 import com.example.muslumoncel.vaccineapp.R;
 
 public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Intent intent;
     private LayoutInflater inflater;
-    private TextView userText;
+    private TextView userText, infoText;
+    private GetAndParseDatas getAndParseDatas;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
 
@@ -51,8 +53,10 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        userText= (TextView) navigationView.getHeaderView(0).findViewById(R.id.userInfoText);
+        userText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userInfoText);
+        infoText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyCountInfoText);
         userText.setText(intent.getStringExtra("Username"));
+        getAndParseDatas = new GetAndParseDatas(intent.getStringExtra("Username"), infoText);
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by muslumoncel on 04/02/16.
@@ -112,22 +112,13 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
                                 }
                             }
                         }
-                        try {
-                            registerStatus = new Register(user, pass, fullname, email).execute().get();
-                            Toast toast = null;
-                            if (Objects.equals(registerStatus, 2)) {
-                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regSuccess), Toast.LENGTH_LONG);
-                            } else if (Objects.equals(registerStatus, -1)) {
-                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.exception), Toast.LENGTH_LONG);
-                            } else if (Objects.equals(registerStatus, 1)) {
-                                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regNotSuccess), Toast.LENGTH_LONG);
+                        new Register(user, pass, fullname, email).execute();
+
+                        if (!Objects.equals(tempView, null)) {
+                            ViewGroup parent = (ViewGroup) tempView.getParent();
+                            if (!Objects.equals(parent, null)) {
+                                parent.removeAllViews();
                             }
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
                         }
                         dialog.dismiss();
                     }
@@ -161,7 +152,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         super.onBackPressed();
     }
 
-    private class Register extends AsyncTask<Void, Void, Integer> {
+    private class Register extends AsyncTask<Void, Void, Void> {
         private final ProgressDialog progDailog = new ProgressDialog(MainOperations.this);
         private String user, pass, fullname, email;
 
@@ -175,7 +166,8 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progDailog.setMessage("Please Wait...");
+            progDailog.setTitle("Please Wait");
+            progDailog.setMessage("Registering...");
             progDailog.setIndeterminate(false);
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(true);
@@ -183,9 +175,9 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         }
 
         @Override
-        protected Integer doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
-                return webServiceOperations.register(user, fullname, pass, email);
+                registerStatus = webServiceOperations.register(user, fullname, pass, email);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XmlPullParserException e) {
@@ -195,10 +187,19 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
+        protected void onPostExecute(Void integer) {
             super.onPostExecute(integer);
-            if (!Objects.equals(progDailog, null))
-                progDailog.dismiss();
+            progDailog.dismiss();
+            Toast toast = null;
+            if (Objects.equals(registerStatus, 2)) {
+                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regSuccess), Toast.LENGTH_LONG);
+            } else if (Objects.equals(registerStatus, -1)) {
+                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.exception), Toast.LENGTH_LONG);
+            } else if (Objects.equals(registerStatus, 1)) {
+                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regNotSuccess), Toast.LENGTH_LONG);
+            }
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 }

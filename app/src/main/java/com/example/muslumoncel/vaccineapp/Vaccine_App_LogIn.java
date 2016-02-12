@@ -110,7 +110,8 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progDailog.setMessage("Please Wait...");
+            progDailog.setTitle("Please Wait...");
+            progDailog.setMessage("Authenticating...");
             progDailog.setIndeterminate(false);
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(true);
@@ -138,6 +139,9 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
                 intent.putExtra("Username", user);
                 finish();
                 startActivity(intent);
+            } else if (Objects.equals(Log_in_status, LogLevel.DOCTOR)) {
+            } else {
+                Log.e("Log Level", String.valueOf(Log_in_status));
             }
         }
     }

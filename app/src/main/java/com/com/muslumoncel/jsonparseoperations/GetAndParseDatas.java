@@ -1,6 +1,7 @@
 package com.com.muslumoncel.jsonparseoperations;
 
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import com.muslum.vaccineapp.ws.WebServiceOperations;
 
@@ -16,38 +17,27 @@ import java.io.IOException;
  */
 public class GetAndParseDatas {
     private final WebServiceOperations webServiceOperations = new WebServiceOperations();
-    private static JSONObject completedVaccines, babies, vaccineDetails, vaccineNames;
+    private static JSONObject babies, vaccineDetails;
     private String username;
+    private TextView infoText;
 
-    public GetAndParseDatas(String username) {
+    public GetAndParseDatas(String username, TextView infoText) {
         this.username = username;
-        new GetData(OperationTags.GETBABIES).execute();
-        System.gc();
+        this.infoText = infoText;
+        new getBabies(OperationTags.GETBABIES).execute();
     }
 
-
-    private class GetData extends AsyncTask<Void, Void, Void> {
+    private class getBabies extends AsyncTask<Void, Void, Void> {
         private String operation;
-        private int baby_id;
 
-        public GetData(String operation) {
+        public getBabies(String operation) {
             this.operation = operation;
         }
-
-        public GetData(String operation, int baby_id) {
-            this.operation = operation;
-            this.baby_id = baby_id;
-        }
-
 
         @Override
         protected Void doInBackground(Void... params) {
-
             try {
-                if (operation.equals(OperationTags.GETBABIES))
-                    babies = webServiceOperations.getBabies(username);
-                else if (operation.equals(OperationTags.GETVACCINEDETAILS))
-                    vaccineDetails = webServiceOperations.getBabyVaccineDetails(baby_id);
+                babies = webServiceOperations.getBabies(username);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XmlPullParserException e) {
@@ -61,18 +51,12 @@ public class GetAndParseDatas {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (operation.equals(OperationTags.GETBABIES))
-                createBabies();
-            else if (operation.equals(OperationTags.GETVACCINEDETAILS))
-                addVaccineDetailstoBabies(baby_id);
+            fillBabyList();
+            infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
         }
     }
 
-    private void addVaccineDetailstoBabies(int baby_id) {
-        
-    }
-
-    private void createBabies() {
+    private void fillBabyList() {
         JSONArray jsonArray = null;
         try {
             jsonArray = babies.getJSONArray(Tags.BABIES_TAG);
@@ -85,8 +69,35 @@ public class GetAndParseDatas {
         }
     }
 
-    public void getVaccineDetails(int baby_id) {
-        new GetData(OperationTags.GETVACCINEDETAILS, baby_id).execute();
+    private class GetDetails extends AsyncTask<Void, Void, Void> {
 
+        private int id;
+
+        GetDetails(int id) {
+            this.id = id;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                vaccineDetails = webServiceOperations.getBabyVaccineDetails(id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    public void getBabyVaccineDetail(int baby_id) {
+        new GetDetails(baby_id).execute();
     }
 }
