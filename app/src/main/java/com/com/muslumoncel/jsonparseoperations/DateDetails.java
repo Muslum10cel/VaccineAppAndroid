@@ -14,6 +14,6 @@ public class DateDetails {
 
     @Override
     public String toString() {
-        return vaccineName + " " + vaccine_date;
+        return vaccineName + ":" + vaccine_date;
     }
 }
