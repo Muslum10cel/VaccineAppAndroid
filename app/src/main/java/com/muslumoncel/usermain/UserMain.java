@@ -83,6 +83,8 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                 alert.setPositiveButton(getResources().getString(R.string.addBaby), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (Objects.equals(username.length(), 0) || Objects.equals(babyname.getText().length(), 0))
+                            return;
                         new AddBaby(username, babyname.getText().toString(), year.getText().toString() + "-" + month.getSelectedItem().toString() + "-" + day.getSelectedItem().toString()).execute();
                         if (!Objects.equals(addBabyView, null)) {
                             parent = (ViewGroup) addBabyView.getParent();
@@ -184,7 +186,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
 
     }
