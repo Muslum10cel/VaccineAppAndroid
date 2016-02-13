@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,7 +29,6 @@ import android.widget.Toast;
 
 import com.com.muslumoncel.jsonparseoperations.Baby;
 import com.com.muslumoncel.jsonparseoperations.GetAndParseDatas;
-import com.com.muslumoncel.jsonparseoperations.Lists;
 import com.com.muslumoncel.jsonparseoperations.OperationTags;
 import com.example.muslumoncel.vaccineapp.R;
 import com.muslum.vaccineapp.ws.WebServiceOperations;
@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     private Spinner day, month;
     private String username;
@@ -59,6 +59,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
         babyList = (ListView) findViewById(R.id.listViewBabies);
+        babyList.setOnItemClickListener(this);
         privateAdapter = new PrivateAdapter(this, list);
         intent = getIntent();
         username = intent.getStringExtra("Username");
@@ -82,9 +83,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                 alert.setPositiveButton(getResources().getString(R.string.addBaby), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         new AddBaby(username, babyname.getText().toString(), year.getText().toString() + "-" + month.getSelectedItem().toString() + "-" + day.getSelectedItem().toString()).execute();
-
                         if (!Objects.equals(addBabyView, null)) {
                             parent = (ViewGroup) addBabyView.getParent();
                             if (!Objects.equals(parent, null)) {
@@ -183,6 +182,13 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         return true;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+    }
+
     private class AddBaby extends AsyncTask<Void, Void, Void> {
 
         private WebServiceOperations webServiceOperations = new WebServiceOperations();
@@ -211,7 +217,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         protected Void doInBackground(Void... params) {
             try {
                 addStatus = webServiceOperations.addBaby(username, babyName, dateOfBirth);
-                Log.i("Add status", String.valueOf(addStatus));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XmlPullParserException e) {
