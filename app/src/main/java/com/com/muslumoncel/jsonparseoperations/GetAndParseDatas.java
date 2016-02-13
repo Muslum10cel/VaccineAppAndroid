@@ -105,8 +105,8 @@ public class GetAndParseDatas {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
             }
-            infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
             progressDialog.dismiss();
         }
     }
