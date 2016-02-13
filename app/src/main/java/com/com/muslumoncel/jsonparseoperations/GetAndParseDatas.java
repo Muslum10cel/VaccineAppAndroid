@@ -88,7 +88,7 @@ public class GetAndParseDatas {
             if (operationName.equals(OperationTags.GETBABIES))
                 progressDialog.setMessage("Getting Datas...");
             else if (operationName.equals(OperationTags.GETVACCINEDETAILS))
-                progressDialog.setMessage("Getting Details...");
+                progressDialog.setMessage("Getting DateDetails...");
             progressDialog.setIndeterminate(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
@@ -142,7 +142,8 @@ public class GetAndParseDatas {
             } else if (operationName.equals(OperationTags.GETVACCINEDETAILS)) {
                 for (int i = 0; i < Tags.vaccines.size(); i++) {
                     try {
-                        Log.i("Detail:", Tags.vaccinesDate.get(i) + " : " + vaccineDetails.getString(Tags.vaccines.get(i)));
+                        Lists.details.add(new DateDetails(Tags.vaccinesDate.get(i), vaccineDetails.getString(Tags.vaccines.get(i))));
+                        Log.i("Detail:", Lists.details.get(i).toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
