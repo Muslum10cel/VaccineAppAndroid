@@ -2,7 +2,6 @@ package com.com.muslumoncel.jsonparseoperations;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;

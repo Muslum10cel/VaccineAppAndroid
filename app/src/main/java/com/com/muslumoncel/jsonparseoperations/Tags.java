@@ -38,10 +38,7 @@ public class Tags {
         vaccinesDate.add("FOURTH DaBT IPA HIB DATE");
         vaccinesDate.add("FIFTH DaBT IPA HIB DATE");
         vaccinesDate.add("SIXTH DaBT IPA HIB DATE");
-    }
 
-
-    static {
         vaccines.add("BABY_NAME");
         vaccines.add("BCG");
         vaccines.add("DaBT_IPA");
