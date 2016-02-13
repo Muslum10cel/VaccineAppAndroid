@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.com.muslumoncel.jsonparseoperations.Baby;
 import com.com.muslumoncel.jsonparseoperations.GetAndParseDatas;
+import com.com.muslumoncel.jsonparseoperations.Lists;
 import com.com.muslumoncel.jsonparseoperations.OperationTags;
 import com.example.muslumoncel.vaccineapp.R;
 import com.muslum.vaccineapp.ws.WebServiceOperations;
@@ -187,7 +188,16 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+        Log.i("selected Item : ", parent.getItemAtPosition(position).toString());
+        int temp = 0;
+        for (Baby b : Lists.babies) {
+            if (Objects.equals(parent.getItemAtPosition(position).toString(), b.getBaby_name())) {
+                temp = b.getBaby_id();
+                break;
+            }
+        }
+        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETVACCINEDETAILS, temp);
+        getAndParseDatas.getBabyVaccineDetails();
     }
 
     private class AddBaby extends AsyncTask<Void, Void, Void> {

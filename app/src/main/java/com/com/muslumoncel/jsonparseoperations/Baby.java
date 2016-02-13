@@ -20,4 +20,9 @@ public class Baby {
     public String getBaby_name() {
         return baby_name;
     }
+
+    @Override
+    public String toString() {
+        return baby_name;
+    }
 }

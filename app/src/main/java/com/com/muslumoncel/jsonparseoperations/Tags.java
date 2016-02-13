@@ -8,8 +8,41 @@ import java.util.List;
  */
 public class Tags {
     public static final List<String> vaccines = new ArrayList<>();
+    public static final List<String> vaccinesDate = new ArrayList<>();
 
     static {
+        vaccinesDate.add("BABY NAME");
+        vaccinesDate.add("BCG DATE");
+        vaccinesDate.add("DaBT IPA DATE");
+        vaccinesDate.add("VARICELLA DATE");
+        vaccinesDate.add("KMA4 DATE");
+        vaccinesDate.add("HPA DATE");
+        vaccinesDate.add("INFLUENZA DATE");
+        vaccinesDate.add("FIRST RVA DATE");
+        vaccinesDate.add("SECOND RVA DATE");
+        vaccinesDate.add("THIRD RVA DATE");
+        vaccinesDate.add("FIRST HEPATITIS A DATE");
+        vaccinesDate.add("SECOND HEPATITIS A DATE");
+        vaccinesDate.add("FIRST HEPATITIS B DATE");
+        vaccinesDate.add("SECOND HEPATITIS B DATE");
+        vaccinesDate.add("THIRD HEPATITIS B DATE");
+        vaccinesDate.add("FIRST KKK DATE");
+        vaccinesDate.add("SECOND KKK DATE");
+        vaccinesDate.add("FIRST KPA DATE");
+        vaccinesDate.add("SECOND KPA DATE");
+        vaccinesDate.add("THIRD KPA DATE");
+        vaccinesDate.add("FOURTH KPA DATE");
+        vaccinesDate.add("FIRST DaBT IPA_HIB DATE");
+        vaccinesDate.add("SECOND DaBT IPA_HIB DATE");
+        vaccinesDate.add("THIRD DaBT IPA HIB DATE");
+        vaccinesDate.add("FOURTH DaBT IPA HIB DATE");
+        vaccinesDate.add("FIFTH DaBT IPA HIB DATE");
+        vaccinesDate.add("SIXTH DaBT IPA HIB DATE");
+    }
+
+
+    static {
+        vaccines.add("BABY_NAME");
         vaccines.add("BCG");
         vaccines.add("DaBT_IPA");
         vaccines.add("VARICELLA");

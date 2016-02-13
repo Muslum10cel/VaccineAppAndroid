@@ -2,8 +2,9 @@ package com.com.muslumoncel.jsonparseoperations;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.nfc.Tag;
 import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class GetAndParseDatas {
     private String userName, operationName;
     private ListView babyList;
     private TextView infoText;
+    private int baby_id;
     private Activity activity;
     private PrivateAdapter babyArrayAdapter;
 
@@ -38,6 +40,17 @@ public class GetAndParseDatas {
         this.infoText = infoText;
     }
 
+    public GetAndParseDatas(Activity activity, String operationName, int baby_id) {
+        this.activity = activity;
+        this.operationName = operationName;
+        this.baby_id = baby_id;
+    }
+
+
+    public void getBabyVaccineDetails() {
+        new GetDatas(activity, operationName, baby_id).execute();
+    }
+
     public void getBabies() {
         new GetDatas(activity, operationName, userName, babyList, babyArrayAdapter, infoText).execute();
     }
@@ -47,9 +60,17 @@ public class GetAndParseDatas {
         private Activity activity;
         private ProgressDialog progressDialog;
         private ListView babyList;
-        private JSONObject babies;
+        private JSONObject babies, vaccineDetails;
+        private int baby_id;
         private TextView infoText;
         private PrivateAdapter babyArrayAdapter;
+
+        public GetDatas(Activity activity, String operationName, int baby_id) {
+            this.activity = activity;
+            this.operationName = operationName;
+            this.baby_id = baby_id;
+            progressDialog = new ProgressDialog(activity);
+        }
 
         public GetDatas(Activity activity, String operationName, String userName, ListView babyList, PrivateAdapter babyArrayAdapter, TextView infoText) {
             this.activity = activity;
@@ -65,7 +86,10 @@ public class GetAndParseDatas {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.setTitle("Please Wait...");
-            progressDialog.setMessage("Getting Datas...");
+            if (operationName.equals(OperationTags.GETBABIES))
+                progressDialog.setMessage("Getting Datas...");
+            else if (operationName.equals(OperationTags.GETVACCINEDETAILS))
+                progressDialog.setMessage("Getting Details...");
             progressDialog.setIndeterminate(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
@@ -77,6 +101,16 @@ public class GetAndParseDatas {
             if (Objects.equals(operationName, OperationTags.GETBABIES)) {
                 try {
                     babies = webServiceOperations.getBabies(userName);
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (operationName.equals(OperationTags.GETVACCINEDETAILS)) {
+                try {
+                    vaccineDetails = webServiceOperations.getBabyVaccineDetails(baby_id);
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -106,10 +140,16 @@ public class GetAndParseDatas {
                     e.printStackTrace();
                 }
                 infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
+            } else if (operationName.equals(OperationTags.GETVACCINEDETAILS)) {
+                for (int i = 0; i < Tags.vaccines.size(); i++) {
+                    try {
+                        Log.i("Detail:", Tags.vaccinesDate.get(i) + " : " + vaccineDetails.getString(Tags.vaccines.get(i)));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             progressDialog.dismiss();
         }
     }
-
-
 }
