@@ -153,7 +153,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
     }
 
     private class Register extends AsyncTask<Void, Void, Void> {
-        private final ProgressDialog progDailog = new ProgressDialog(MainOperations.this);
+        private final ProgressDialog progressDialog = new ProgressDialog(MainOperations.this);
         private String user, pass, fullname, email;
 
         public Register(String user, String pass, String fullname, String email) {
@@ -166,12 +166,12 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progDailog.setTitle("Please Wait");
-            progDailog.setMessage("Registering...");
-            progDailog.setIndeterminate(false);
-            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progDailog.setCancelable(true);
-            progDailog.show();
+            progressDialog.setTitle("Please Wait");
+            progressDialog.setMessage("Registering...");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
         }
 
         @Override
@@ -189,7 +189,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Void integer) {
             super.onPostExecute(integer);
-            progDailog.dismiss();
+            progressDialog.dismiss();
             Toast toast = null;
             if (Objects.equals(registerStatus, 2)) {
                 toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regSuccess), Toast.LENGTH_LONG);

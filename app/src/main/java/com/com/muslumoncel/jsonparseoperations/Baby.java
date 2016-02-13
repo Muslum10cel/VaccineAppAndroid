@@ -17,8 +17,7 @@ public class Baby {
         return baby_id;
     }
 
-    @Override
-    public String toString() {
+    public String getBaby_name() {
         return baby_name;
     }
 }
