@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private Spinner day, month;
     private String username;
@@ -61,6 +61,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_user_main);
         babyList = (ListView) findViewById(R.id.listViewBabies);
         babyList.setOnItemClickListener(this);
+        babyList.setOnItemLongClickListener(this);
         privateAdapter = new PrivateAdapter(this, list);
         intent = getIntent();
         username = intent.getStringExtra("Username");
@@ -196,8 +197,28 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             }
         }
+        if (Objects.equals(temp, null))
+            return;
         GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETVACCINEDETAILS, temp);
         getAndParseDatas.getBabyVaccineDetails();
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("selected Item Long: ", parent.getItemAtPosition(position).toString());
+        int temp = 0;
+        for (Baby b : Lists.babies) {
+            if (Objects.equals(parent.getItemAtPosition(position).toString(), b.getBaby_name())) {
+                temp = b.getBaby_id();
+                break;
+            }
+        }
+        if (Objects.equals(temp, null))
+            return false;
+        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.COMPLETEDVACCINES, temp);
+        getAndParseDatas.getCompletionDetails();
+
+        return true;
     }
 
     private class AddBaby extends AsyncTask<Void, Void, Void> {

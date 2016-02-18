@@ -45,7 +45,6 @@ public class GetAndParseDatas {
         this.baby_id = baby_id;
     }
 
-
     public void getBabyVaccineDetails() {
         new GetDatas(activity, operationName, baby_id).execute();
     }
@@ -54,12 +53,16 @@ public class GetAndParseDatas {
         new GetDatas(activity, operationName, userName, babyList, babyArrayAdapter, infoText).execute();
     }
 
+    public void getCompletionDetails() {
+        new GetDatas(activity, operationName, baby_id).execute();
+    }
+
     private class GetDatas extends AsyncTask<Void, Void, Void> {
         private String userName, operationName;
         private Activity activity;
         private ProgressDialog progressDialog;
         private ListView babyList;
-        private JSONObject babies, vaccineDetails;
+        private JSONObject babies, vaccineDetails, completionDetails;
         private int baby_id;
         private TextView infoText;
         private PrivateAdapter babyArrayAdapter;
@@ -89,6 +92,8 @@ public class GetAndParseDatas {
                 progressDialog.setMessage("Getting Datas...");
             else if (operationName.equals(OperationTags.GETVACCINEDETAILS))
                 progressDialog.setMessage("Getting DateDetails...");
+            else if (operationName.equals(OperationTags.COMPLETEDVACCINES))
+                progressDialog.setMessage("Getting Completion Details...");
             progressDialog.setIndeterminate(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
@@ -117,6 +122,16 @@ public class GetAndParseDatas {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else if (operationName.equals(OperationTags.COMPLETEDVACCINES)) {
+                try {
+                    completionDetails = webServiceOperations.getCompletedVaccines(baby_id);
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             return null;
@@ -125,6 +140,7 @@ public class GetAndParseDatas {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.i("Operation  : ", operationName);
             if (Objects.equals(operationName, OperationTags.GETBABIES)) {
                 try {
                     Lists.babies.clear();
@@ -147,6 +163,17 @@ public class GetAndParseDatas {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+            } else if (operationName.equals(OperationTags.COMPLETEDVACCINES)) {
+                for (int i = 0; i < Tags.vaccines.size(); i++) {
+                    try {
+                        Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), completionDetails.getString(Tags.vaccines.get(i))));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                for (CompletionDetails cd:Lists.completionDetails){
+                    Log.i("Completion : ", cd.toString());
                 }
             }
             progressDialog.dismiss();
