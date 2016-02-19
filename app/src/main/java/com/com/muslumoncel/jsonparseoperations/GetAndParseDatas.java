@@ -166,7 +166,7 @@ public class GetAndParseDatas {
             } else if (operationName.equals(OperationTags.COMPLETEDVACCINES)) {
                 for (int i = 0; i < Tags.vaccines.size(); i++) {
                     try {
-                        Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), completionDetails.getString(Tags.vaccines.get(i))));
+                        Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), Integer.parseInt(completionDetails.getString(Tags.vaccines.get(i)))));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

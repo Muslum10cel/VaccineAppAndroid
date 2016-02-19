@@ -6,6 +6,7 @@ package com.com.muslumoncel.jsonparseoperations;
 public class StatusDetails {
     private String vaccine_status, vaccineName;
 
+
     public StatusDetails(String vaccineName, String vaccine_status) {
         this.vaccineName = vaccineName;
         this.vaccine_status = vaccine_status;
