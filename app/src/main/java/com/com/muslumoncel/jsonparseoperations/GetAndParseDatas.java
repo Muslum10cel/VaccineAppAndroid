@@ -155,6 +155,8 @@ public class GetAndParseDatas {
                 }
                 infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
             } else if (operationName.equals(OperationTags.GETVACCINEDETAILS)) {
+                if (!Objects.equals(Lists.details.size(), 0))
+                    Lists.details.clear();
                 for (int i = 0; i < Tags.vaccines.size(); i++) {
                     try {
                         Lists.details.add(new DateDetails(Tags.vaccinesDate.get(i), vaccineDetails.getString(Tags.vaccines.get(i))));
@@ -164,6 +166,8 @@ public class GetAndParseDatas {
                     }
                 }
             } else if (operationName.equals(OperationTags.COMPLETEDVACCINES)) {
+                if (!Objects.equals(Lists.completionDetails.size(), 0))
+                    Lists.completionDetails.clear();
                 for (int i = 0; i < Tags.vaccines.size(); i++) {
                     try {
                         Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), Integer.parseInt(completionDetails.getString(Tags.vaccines.get(i)))));
