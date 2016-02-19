@@ -91,7 +91,7 @@ public class GetAndParseDatas {
             if (operationName.equals(OperationTags.GETBABIES))
                 progressDialog.setMessage("Getting Datas...");
             else if (operationName.equals(OperationTags.GETVACCINEDETAILS))
-                progressDialog.setMessage("Getting DateDetails...");
+                progressDialog.setMessage("Getting Date Details...");
             else if (operationName.equals(OperationTags.COMPLETEDVACCINES))
                 progressDialog.setMessage("Getting Completion Details...");
             progressDialog.setIndeterminate(false);
@@ -133,7 +133,6 @@ public class GetAndParseDatas {
                     e.printStackTrace();
                 }
             }
-
             return null;
         }
 
@@ -172,7 +171,7 @@ public class GetAndParseDatas {
                         e.printStackTrace();
                     }
                 }
-                for (CompletionDetails cd:Lists.completionDetails){
+                for (CompletionDetails cd : Lists.completionDetails) {
                     Log.i("Completion : ", cd.toString());
                 }
             }
