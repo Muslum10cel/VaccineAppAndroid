@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.muslum.vaccineapp.ws.WebServiceOperations;
 import com.muslumoncel.usermain.PrivateAdapter;
+import com.muslumoncel.usermain.PrivateAdapterForDate;
+import com.muslumoncel.usermain.PrivateAdapterForStatus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,8 @@ public class GetAndParseDatas {
     private int baby_id;
     private Activity activity;
     private PrivateAdapter babyArrayAdapter;
+    private PrivateAdapterForDate privateAdapterForDate;
+    private PrivateAdapterForStatus privateAdapterForStatus;
 
     public GetAndParseDatas(Activity activity, String operationName, String userName, ListView babyList, PrivateAdapter babyArrayAdapter, TextView infoText) {
         this.activity = activity;

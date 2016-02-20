@@ -10,6 +10,5 @@ public class Lists {
     public static final List<Baby> babies=new ArrayList<>();
     public static final List<DateDetails> details =new ArrayList<>();
     public static final List<CompletionDetails> completionDetails =new ArrayList<>();
-
-
+    public static final List<String> vaccineNames =new ArrayList<>();
 }

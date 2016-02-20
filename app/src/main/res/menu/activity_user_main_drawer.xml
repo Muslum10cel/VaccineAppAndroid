@@ -2,16 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/babies"
+            android:icon="@drawable/baby"
+            android:title="Babies" />
+        <item
+            android:id="@+id/edit_completion"
             android:icon="@drawable/edit"
             android:title="Edit Completion Status" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/show_dates"
             android:icon="@drawable/date"
             android:title="Show Date Details" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/write_comment"
             android:icon="@drawable/write_comment"
             android:title="Write Comment" />
     </group>

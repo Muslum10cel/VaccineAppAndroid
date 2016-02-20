@@ -49,12 +49,12 @@ public class PrivateAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = inflater.inflate(R.layout.custom_list_view, null);
         TextView textView = (TextView) row.findViewById(R.id.textView);
-        ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
+        //ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
 
         Baby b = babies.get(position);
 
         textView.setText(b.getBaby_name());
-        imageView.setImageResource(R.drawable.arrow);
+        //imageView.setImageResource(R.drawable.arrow);
 
         return row;
     }

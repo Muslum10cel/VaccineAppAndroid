@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -42,9 +43,9 @@ import java.util.Objects;
 
 public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    private Spinner day, month;
+    private Spinner day, month, vaccine_names;
     private String username;
-    private EditText year, babyname;
+    private EditText year, babyname, comment_edit;
     private ViewGroup parent;
     private View addBabyView;
     private ListView babyList;
@@ -60,8 +61,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
         babyList = (ListView) findViewById(R.id.listViewBabies);
-        babyList.setOnItemClickListener(this);
-        babyList.setOnItemLongClickListener(this);
         privateAdapter = new PrivateAdapter(this, list);
         intent = getIntent();
         username = intent.getStringExtra("Username");
@@ -165,18 +164,58 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.babies:
+                babyList.setOnItemClickListener(null);
+                babyList.setOnItemLongClickListener(null);
+                break;
+            case R.id.edit_completion:
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+                babyList.setOnItemClickListener(this);
+                break;
+            case R.id.show_dates:
+                babyList.setOnItemLongClickListener(this);
+                break;
+            case R.id.write_comment:
+                final View comment = inflater.inflate(R.layout.comment_layout, null);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Lists.vaccineNames);
+                vaccine_names = (Spinner) comment.findViewById(R.id.comment_spinner);
+                vaccine_names.setAdapter(arrayAdapter);
+                comment_edit = (EditText) comment.findViewById(R.id.comment_edit);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle(getResources().getString(R.string.write_comment));
+                builder.setView(comment);
+                builder.setPositiveButton(getResources().getString(R.string.add_comment), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (comment_edit.getText().length() != 0) {
+                            Log.i("Vaccine Name : ", vaccine_names.getSelectedItem().toString());
+                            new AddComment(username, vaccine_names.getSelectedItem().toString(), comment_edit.getText().toString()).execute();
+                        }
+                        if (!Objects.equals(addBabyView, null)) {
+                            parent = (ViewGroup) addBabyView.getParent();
+                            if (!Objects.equals(parent, null)) {
+                                parent.removeAllViews();
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!Objects.equals(addBabyView, null)) {
+                            parent = (ViewGroup) addBabyView.getParent();
+                            if (!Objects.equals(parent, null)) {
+                                parent.removeAllViews();
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
 
-        }  else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -232,11 +271,12 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
             this.dateOfBirth = dateOfBirth;
         }
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.setTitle("Please Wait");
-            progressDialog.setMessage("Adding...");
+            progressDialog.setMessage("Baby is adding...");
             progressDialog.setIndeterminate(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
@@ -269,7 +309,57 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
             }
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+        }
+    }
 
+    private class AddComment extends AsyncTask<Void, Void, Void> {
+
+        private String username, vaccine_name, comment;
+        private WebServiceOperations webServiceOperations = new WebServiceOperations();
+        private ProgressDialog progressDialog = new ProgressDialog(UserMain.this);
+        private int commentAdd;
+
+        public AddComment(String username, String vaccine_name, String comment) {
+            this.username = username;
+            this.vaccine_name = vaccine_name;
+            this.comment = comment;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setTitle("Please Wait");
+            progressDialog.setMessage("Comment is uploading...");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                commentAdd = webServiceOperations.addComment(username, vaccine_name, comment);
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            Toast toast = null;
+            if (Objects.equals(commentAdd, 1)) {
+                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.comment_add_success), Toast.LENGTH_LONG);
+            } else if (Objects.equals(commentAdd, -1)) {
+                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.comment_add_notSuccess), Toast.LENGTH_LONG);
+            }
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 }

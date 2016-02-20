@@ -73,8 +73,12 @@
     <string name="day">Day : </string>
     <string name="month">Month : </string>
     <string name="year">Year : </string>
+    <string name="write_comment">Write Comment</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="comment_add_success">Comment added successfully</string>
+    <string name="comment_add_notSuccess">Comment could not be added!</string>
+    <string name="add_comment">Add Comment</string>
 
     <string name="action_settings">Settings</string>
 </resources>
