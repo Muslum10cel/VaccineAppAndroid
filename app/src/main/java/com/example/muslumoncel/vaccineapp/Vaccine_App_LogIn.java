@@ -134,14 +134,17 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             progDailog.dismiss();
-            if (Objects.equals(Log_in_status, LogLevel.USER)) {
-                Intent intent = new Intent(Vaccine_App_LogIn.this, UserMain.class);
-                intent.putExtra("Username", user);
-                finish();
-                startActivity(intent);
-            } else if (Objects.equals(Log_in_status, LogLevel.DOCTOR)) {
-            } else {
-                Log.e("Log Level", String.valueOf(Log_in_status));
+            switch (Log_in_status) {
+                case LogLevel.USER:
+                    Intent intent = new Intent(Vaccine_App_LogIn.this, UserMain.class);
+                    intent.putExtra("Username", user);
+                    finish();
+                    startActivity(intent);
+                    break;
+                case LogLevel.DOCTOR:
+                    break;
+                default:
+                    Log.e("Log Level", String.valueOf(Log_in_status));
             }
         }
     }
