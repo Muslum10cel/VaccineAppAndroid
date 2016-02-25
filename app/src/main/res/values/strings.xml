@@ -19,6 +19,7 @@
     <string name="recorded">Number of recorded baby : </string>
     <string name="addBaby">Add Baby</string>
     <string name="ok">OK</string>
+    <string name="log_in_error">You are neither a user nor doctor!</string>
     <string name="title_activity_user_main">UserMain</string>
 
     <string-array name="days">

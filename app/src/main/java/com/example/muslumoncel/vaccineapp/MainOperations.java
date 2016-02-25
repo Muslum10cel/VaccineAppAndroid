@@ -193,18 +193,16 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         protected void onPostExecute(Void integer) {
             super.onPostExecute(integer);
             progressDialog.dismiss();
-            Snackbar snackbar = null;
             switch (registerStatus) {
                 case 2:
-                    snackbar = Snackbar.make(view, getResources().getString(R.string.regSuccess), Snackbar.LENGTH_LONG);
+                    Snackbar.make(view, getResources().getString(R.string.regSuccess), Snackbar.LENGTH_LONG).show();
                     break;
                 case -1:
-                    snackbar = Snackbar.make(view, getResources().getString(R.string.exception), Snackbar.LENGTH_LONG);
+                    Snackbar.make(view, getResources().getString(R.string.exception), Snackbar.LENGTH_LONG).show();
                     break;
                 case 1:
-                    snackbar = Snackbar.make(view, getResources().getString(R.string.regNotSuccess), Snackbar.LENGTH_LONG);
+                    Snackbar.make(view, getResources().getString(R.string.regNotSuccess), Snackbar.LENGTH_LONG).show();
             }
-            snackbar.show();
         }
     }
 }

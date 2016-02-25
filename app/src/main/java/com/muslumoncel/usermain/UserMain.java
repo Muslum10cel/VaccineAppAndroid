@@ -77,7 +77,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(UserMain.this);
                 alert.setView(addBabyView);
                 alert.setCancelable(false);
@@ -87,7 +87,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                     public void onClick(DialogInterface dialog, int which) {
                         if (Objects.equals(username.length(), 0) || Objects.equals(babyname.getText().length(), 0))
                             return;
-                        new AddBaby(username, babyname.getText().toString(), year.getText().toString() + "-" + month.getSelectedItem().toString() + "-" + day.getSelectedItem().toString()).execute();
+                        new AddBaby(username, babyname.getText().toString(), year.getText().toString() + "-" + month.getSelectedItem().toString() + "-" + day.getSelectedItem().toString(), view).execute();
                         if (!Objects.equals(addBabyView, null)) {
                             parent = (ViewGroup) addBabyView.getParent();
                             if (!Objects.equals(parent, null)) {
@@ -163,7 +163,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(final MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.babies:
@@ -192,7 +192,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                     public void onClick(DialogInterface dialog, int which) {
                         if (comment_edit.getText().length() != 0) {
                             Log.i("Vaccine Name : ", vaccine_names.getSelectedItem().toString());
-                            new AddComment(username, vaccine_names.getSelectedItem().toString(), comment_edit.getText().toString()).execute();
+                            new AddComment(username, vaccine_names.getSelectedItem().toString(), comment_edit.getText().toString(), item.getActionView()).execute();
                         }
                         if (!Objects.equals(addBabyView, null)) {
                             parent = (ViewGroup) addBabyView.getParent();
@@ -265,13 +265,14 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         private ProgressDialog progressDialog = new ProgressDialog(UserMain.this);
         private String babyName, dateOfBirth, username;
         private int addStatus;
-
-        public AddBaby(String username, String babyName, String dateOfBirth) {
+        private View view;
+        
+        public AddBaby(String username, String babyName, String dateOfBirth, View view) {
             this.username = username;
             this.babyName = babyName;
             this.dateOfBirth = dateOfBirth;
+            this.view = view;
         }
-
 
         @Override
         protected void onPreExecute() {
@@ -302,14 +303,13 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
             progressDialog.dismiss();
             getAndParseDatas = new GetAndParseDatas(UserMain.this, OperationTags.GETBABIES, intent.getStringExtra("Username"), babyList, privateAdapter, infoText);
             getAndParseDatas.getBabies();
-            Toast toast = null;
-            if (Objects.equals(addStatus, 1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.addSuccess), Toast.LENGTH_LONG);
-            } else if (Objects.equals(addStatus, -1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.addNotSuccess), Toast.LENGTH_LONG);
+            switch (addStatus) {
+                case 1:
+                    Snackbar.make(view, getResources().getString(R.string.addSuccess), Snackbar.LENGTH_LONG).show();
+                    break;
+                case -1:
+                    Snackbar.make(view, getResources().getString(R.string.addNotSuccess), Snackbar.LENGTH_LONG).show();
             }
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
         }
     }
 
@@ -319,11 +319,13 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         private WebServiceOperations webServiceOperations = new WebServiceOperations();
         private ProgressDialog progressDialog = new ProgressDialog(UserMain.this);
         private int commentAdd;
+        private View view;
 
-        public AddComment(String username, String vaccine_name, String comment) {
+        public AddComment(String username, String vaccine_name, String comment, View view) {
             this.username = username;
             this.vaccine_name = vaccine_name;
             this.comment = comment;
+            this.view = view;
         }
 
         @Override
@@ -353,20 +355,13 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            Toast toast = null;
-
-            /*
-            * Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-             **/
-
-            if (Objects.equals(commentAdd, 1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.comment_add_success), Toast.LENGTH_LONG);
-            } else if (Objects.equals(commentAdd, -1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.comment_add_notSuccess), Toast.LENGTH_LONG);
+            switch (commentAdd) {
+                case 1:
+                    Snackbar.make(view, getResources().getString(R.string.comment_add_success), Snackbar.LENGTH_LONG).show();
+                    break;
+                case -1:
+                    Snackbar.make(view, getResources().getString(R.string.comment_add_notSuccess), Snackbar.LENGTH_LONG).show();
             }
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
         }
     }
 }

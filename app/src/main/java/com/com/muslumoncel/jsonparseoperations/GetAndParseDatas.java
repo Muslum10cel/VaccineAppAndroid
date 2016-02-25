@@ -145,44 +145,47 @@ public class GetAndParseDatas {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Log.i("Operation  : ", operationName);
-            if (Objects.equals(operationName, OperationTags.GETBABIES)) {
-                try {
-                    Lists.babies.clear();
-                    JSONArray jsonArray = babies.getJSONArray(Tags.BABIES_TAG);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject temp = jsonArray.getJSONObject(i);
-                        Lists.babies.add(new Baby(temp.getString(Tags.BABY_NAME_TAG), temp.getInt(Tags.BABY_ID_TAG)));
-                    }
-                    babyArrayAdapter = new PrivateAdapter(activity, Lists.babies);
-                    babyList.setAdapter(babyArrayAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
-            } else if (operationName.equals(OperationTags.GETVACCINEDETAILS)) {
-                if (!Objects.equals(Lists.details.size(), 0))
-                    Lists.details.clear();
-                for (int i = 0; i < Tags.vaccines.size(); i++) {
+            switch (operationName) {
+                case OperationTags.GETBABIES:
                     try {
-                        Lists.details.add(new DateDetails(Tags.vaccinesDate.get(i), vaccineDetails.getString(Tags.vaccines.get(i))));
-                        Log.i("Detail:", Lists.details.get(i).toString());
+                        Lists.babies.clear();
+                        JSONArray jsonArray = babies.getJSONArray(Tags.BABIES_TAG);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject temp = jsonArray.getJSONObject(i);
+                            Lists.babies.add(new Baby(temp.getString(Tags.BABY_NAME_TAG), temp.getInt(Tags.BABY_ID_TAG)));
+                        }
+                        babyArrayAdapter = new PrivateAdapter(activity, Lists.babies);
+                        babyList.setAdapter(babyArrayAdapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-            } else if (operationName.equals(OperationTags.COMPLETEDVACCINES)) {
-                if (!Objects.equals(Lists.completionDetails.size(), 0))
-                    Lists.completionDetails.clear();
-                for (int i = 0; i < Tags.vaccines.size(); i++) {
-                    try {
-                        Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), Integer.parseInt(completionDetails.getString(Tags.vaccines.get(i)))));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    infoText.setText("Number of recorded baby : " + String.valueOf(Lists.babies.size()));
+                    break;
+                case OperationTags.GETVACCINEDETAILS:
+                    if (!Objects.equals(Lists.details.size(), 0))
+                        Lists.details.clear();
+                    for (int i = 0; i < Tags.vaccines.size(); i++) {
+                        try {
+                            Lists.details.add(new DateDetails(Tags.vaccinesDate.get(i), vaccineDetails.getString(Tags.vaccines.get(i))));
+                            Log.i("Detail:", Lists.details.get(i).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                for (CompletionDetails cd : Lists.completionDetails) {
-                    Log.i("Completion : ", cd.toString());
-                }
+                    break;
+                case OperationTags.COMPLETEDVACCINES:
+                    if (!Objects.equals(Lists.completionDetails.size(), 0))
+                        Lists.completionDetails.clear();
+                    for (int i = 0; i < Tags.vaccines.size(); i++) {
+                        try {
+                            Lists.completionDetails.add(new CompletionDetails(Tags.vaccines.get(i), Integer.parseInt(completionDetails.getString(Tags.vaccines.get(i)))));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    for (CompletionDetails cd : Lists.completionDetails) {
+                        Log.i("Completion : ", cd.toString());
+                    }
             }
             progressDialog.dismiss();
         }

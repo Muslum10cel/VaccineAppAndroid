@@ -92,7 +92,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
             case R.id.lgnButton:
                 if ((user == null || user.length() == 0) || (pass == null || pass.length() == 0))
                     return;
-                new LogIn(user, pass).execute();
+                new LogIn(user, pass, v).execute();
                 break;
         }
     }
@@ -101,10 +101,12 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
 
         private final ProgressDialog progDailog = new ProgressDialog(Vaccine_App_LogIn.this);
         private String user, pass;
+        private View view;
 
-        public LogIn(String username, String password) {
+        public LogIn(String username, String password, View view) {
             this.user = username;
             this.pass = password;
+            this.view = view;
         }
 
         @Override
@@ -144,6 +146,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
                 case LogLevel.DOCTOR:
                     break;
                 default:
+                    Snackbar.make(view, getResources().getString(R.string.log_in_error), Snackbar.LENGTH_LONG).show();
                     Log.e("Log Level", String.valueOf(Log_in_status));
             }
         }
