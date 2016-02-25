@@ -171,10 +171,11 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                 babyList.setOnItemLongClickListener(null);
                 break;
             case R.id.edit_completion:
-
+                babyList.setOnItemLongClickListener(null);
                 babyList.setOnItemClickListener(this);
                 break;
             case R.id.show_dates:
+                babyList.setOnItemClickListener(null);
                 babyList.setOnItemLongClickListener(this);
                 break;
             case R.id.write_comment:
@@ -215,8 +216,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
                     }
                 });
                 builder.show();
-
-                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
