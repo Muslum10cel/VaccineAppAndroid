@@ -3,6 +3,7 @@ package com.example.muslumoncel.vaccineapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -87,8 +88,7 @@ public class Vaccine_App_LogIn extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
             case R.id.lgnButton:
                 if ((user == null || user.length() == 0) || (pass == null || pass.length() == 0))
                     return;

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,15 +68,15 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
                 startActivity(intent);
                 break;
             case 1:
-                Alert(1, parent.getItemAtPosition(position).toString());
+                Alert(1, parent.getItemAtPosition(position).toString(), view);
                 break;
             case 2:
-                Alert(2, (ops.getItemAtPosition(position)).toString());
+                Alert(2, (ops.getItemAtPosition(position)).toString(), view);
 
         }
     }
 
-    private void Alert(int item, String message) {
+    private void Alert(int item, String message, final View view) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setCancelable(false);
         alert.setTitle(message);
@@ -112,7 +113,7 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
                                 }
                             }
                         }
-                        new Register(user, pass, fullname, email).execute();
+                        new Register(user, pass, fullname, email, view).execute();
 
                         if (!Objects.equals(tempView, null)) {
                             ViewGroup parent = (ViewGroup) tempView.getParent();
@@ -155,12 +156,14 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
     private class Register extends AsyncTask<Void, Void, Void> {
         private final ProgressDialog progressDialog = new ProgressDialog(MainOperations.this);
         private String user, pass, fullname, email;
+        private View view;
 
-        public Register(String user, String pass, String fullname, String email) {
+        public Register(String user, String pass, String fullname, String email, View view) {
             this.user = user;
             this.pass = pass;
             this.fullname = fullname;
             this.email = email;
+            this.view = view;
         }
 
         @Override
@@ -190,16 +193,15 @@ public class MainOperations extends Activity implements AdapterView.OnItemClickL
         protected void onPostExecute(Void integer) {
             super.onPostExecute(integer);
             progressDialog.dismiss();
-            Toast toast = null;
+            Snackbar snackbar = null;
             if (Objects.equals(registerStatus, 2)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regSuccess), Toast.LENGTH_LONG);
+                snackbar = Snackbar.make(view, getResources().getString(R.string.regSuccess), Snackbar.LENGTH_LONG);
             } else if (Objects.equals(registerStatus, -1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.exception), Toast.LENGTH_LONG);
+                snackbar = Snackbar.make(view, getResources().getString(R.string.exception), Snackbar.LENGTH_LONG);
             } else if (Objects.equals(registerStatus, 1)) {
-                toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.regNotSuccess), Toast.LENGTH_LONG);
+                snackbar = Snackbar.make(view, getResources().getString(R.string.regNotSuccess), Snackbar.LENGTH_LONG);
             }
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            snackbar.show();
         }
     }
 }

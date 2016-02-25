@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -353,6 +354,12 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
             Toast toast = null;
+
+            /*
+            * Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+             **/
+
             if (Objects.equals(commentAdd, 1)) {
                 toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.comment_add_success), Toast.LENGTH_LONG);
             } else if (Objects.equals(commentAdd, -1)) {
