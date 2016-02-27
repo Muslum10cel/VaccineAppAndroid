@@ -93,4 +93,8 @@ public class WebServiceOperations {
     public JSONObject getCompletedVaccines(int baby_id) throws JSONException, XmlPullParserException, IOException {
         return dbOperations.getCompletedVaccines(baby_id);
     }
+
+    public int uploadImage(String username, String fileName, byte[] imageBytes) throws IOException, XmlPullParserException {
+        return dbOperations.uploadImage(username, fileName, imageBytes);
+    }
 }
