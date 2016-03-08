@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,6 +42,8 @@ import com.muslum.vaccineapp.ws.WebServiceOperations;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +59,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
     private PrivateAdapter privateAdapter;
     private Intent intent;
     private LayoutInflater inflater;
+    private ImageView profPic;
     private TextView userText, infoText;
     private GetAndParseDatas getAndParseDatas;
 
@@ -61,6 +67,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
+
         babyList = (ListView) findViewById(R.id.listViewBabies);
         privateAdapter = new PrivateAdapter(this, list);
         intent = getIntent();
@@ -123,10 +130,14 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
 
         userText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userInfoText);
         infoText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.babyCountInfoText);
+        profPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profilePic);
         userText.setText(username);
 
         getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETBABIES, intent.getStringExtra("Username"), babyList, privateAdapter, infoText);
         getAndParseDatas.getBabies();
+
+        new GetProfPic("http://muslumoncel-001-site1.smarterasp.net/muslum-rctr.jpg").execute();
+
     }
 
     @Override
@@ -236,8 +247,8 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         }
         if (Objects.equals(temp, null))
             return;
-        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETVACCINEDETAILS, temp);
-        getAndParseDatas.getBabyVaccineDetails();
+        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.COMPLETEDVACCINES, temp);
+        getAndParseDatas.getCompletionDetails();
     }
 
     @Override
@@ -252,9 +263,9 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         }
         if (Objects.equals(temp, null))
             return false;
-        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.COMPLETEDVACCINES, temp);
-        getAndParseDatas.getCompletionDetails();
 
+        GetAndParseDatas getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETVACCINEDETAILS, temp);
+        getAndParseDatas.getBabyVaccineDetails();
         return true;
     }
 
@@ -265,7 +276,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         private String babyName, dateOfBirth, username;
         private int addStatus;
         private View view;
-        
+
         public AddBaby(String username, String babyName, String dateOfBirth, View view) {
             this.username = username;
             this.babyName = babyName;
@@ -363,4 +374,30 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
             }
         }
     }
+
+    private class GetProfPic extends AsyncTask<Void, Void, Void> {
+
+        private Bitmap bitmap;
+        private String url;
+
+        GetProfPic(String url) {
+            this.url = url;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            profPic.setImageBitmap(bitmap);
+        }
+    }
 }
+
