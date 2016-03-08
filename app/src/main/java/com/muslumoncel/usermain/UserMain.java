@@ -34,7 +34,6 @@ import com.com.muslumoncel.jsonparseoperations.Baby;
 import com.com.muslumoncel.jsonparseoperations.GetAndParseDatas;
 import com.com.muslumoncel.jsonparseoperations.Lists;
 import com.com.muslumoncel.jsonparseoperations.OperationTags;
-import com.com.muslumoncel.jsonparseoperations.Tags;
 import com.example.muslumoncel.vaccineapp.R;
 import com.muslum.vaccineapp.ws.WebServiceOperations;
 
@@ -45,8 +44,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
-
-import muslum.imageurl.ImageURL;
 
 public class UserMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -136,8 +133,6 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
 
         getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETBABIES, intent.getStringExtra("Username"), babyList, privateAdapter, infoText);
         getAndParseDatas.getBabies();
-
-        new GetProfPic(ImageURL.IMAGE_URL + username + Tags.IMAGE_TAG).execute();
 
     }
 
