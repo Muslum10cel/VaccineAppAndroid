@@ -136,7 +136,7 @@ public class UserMain extends AppCompatActivity implements NavigationView.OnNavi
         getAndParseDatas = new GetAndParseDatas(this, OperationTags.GETBABIES, intent.getStringExtra("Username"), babyList, privateAdapter, infoText);
         getAndParseDatas.getBabies();
 
-        new GetProfPic("http://muslumoncel-001-site1.smarterasp.net/muslum-rctr.jpg").execute();
+        new GetProfPic().execute();
 
     }
 
